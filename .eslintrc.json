@@ -1,0 +1,55 @@
+{
+  "root": true,
+  "ignorePatterns": ["projects/**/*"],
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "parserOptions": {
+        "project": ["tsconfig.json", "e2e/tsconfig.json"],
+        "createDefaultProgram": true
+      },
+      "plugins": ["@typescript-eslint"],
+      "parser": "@typescript-eslint/parser",
+      "extends": [],
+      "rules": {
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "@typescript-eslint/typedef": "off",
+        "@typescript-eslint/ban-types": "off",
+        "@typescript-eslint/prefer-for-of": "off",
+        "@typescript-eslint/naming-convention": "off",
+        "@typescript-eslint/member-ordering": "off",
+        "@typescript-eslint/no-unused-expressions": "off",
+        "@typescript-eslint/dot-notation": "off",
+        "id-denylist": [
+          "error",
+          "any",
+          "Number",
+          "number",
+          "String",
+          "string",
+          "Boolean",
+          "boolean",
+          "Undefined",
+          "undefined"
+        ],
+        "max-len": [
+          "error",
+          {
+            "code": 200
+          }
+        ],
+        "no-underscore-dangle": "off",
+        "no-empty-function": "off",
+        "no-shadow": "off",
+        "no-unused-expressions": "off",
+        "no-use-before-define": "off",
+        "semi": "off"
+      }
+    },
+    {
+      "files": ["*.html"],
+      "extends": []
+    }
+  ]
+}
