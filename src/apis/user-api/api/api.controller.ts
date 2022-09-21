@@ -13,7 +13,7 @@ export class ApiController extends BaseController {
   ) {
     super();
   }
-  @Post('token')
+  @Post('channel')
   async addToken() {
     try {
       return this.ok(await this.apiService.generateChannel());
