@@ -7,7 +7,7 @@ export class EnvironmentParam {
   @IsNumber()
   @Type(() => Number)
   @Expose()
-  public API_PORT: number;
+  public PORT: number;
 
   @IsString()
   @Type(() => String)
@@ -42,6 +42,6 @@ export class EnvironmentParam {
   @IsString()
   @Type(() => String)
   @Expose()
-  public DB_CONNECTION: string
+  public MONGODB_CONNECTION_STRING: string
 
 }

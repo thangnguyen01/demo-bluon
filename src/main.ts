@@ -21,7 +21,7 @@ async function bootstrap() {
   );
   app.useStaticAssets(join(__dirname, '..', 'documentation'));
   const envService = app.get(EnvironmentService);
-  const API_PORT = envService.ENVIRONMENT.API_PORT;
+  const API_PORT = envService.ENVIRONMENT.PORT;
   setupSwaggerUI(app);
   await app.listen(API_PORT);
   console.log(`App is running on ${API_PORT}`);
