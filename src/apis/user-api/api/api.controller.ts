@@ -1,7 +1,10 @@
+import { ApiExtraModels, ApiTags } from '@nestjs/swagger';
+import { ApiOkModelResponse } from 'src/utility/decorator/api-ok-model.response';
 import { ApiService } from './api.service';
-import { ApiTags } from '@nestjs/swagger';
 import { BaseController } from 'src/core/base.controller';
-import { Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
+import { ChannelConnectionResponse } from './response/channel-connection.response';
+import { JoinChannelDTO } from './dto/user.dto';
 import { SystemCode } from 'src/core/constants/system-code';
 
 
@@ -13,6 +16,9 @@ export class ApiController extends BaseController {
   ) {
     super();
   }
+
+  @ApiExtraModels(ChannelConnectionResponse)
+  @ApiOkModelResponse({ type: ChannelConnectionResponse })
   @Post('channel')
   async addToken() {
     try {
@@ -22,4 +28,29 @@ export class ApiController extends BaseController {
       return this.error(SystemCode.INTERNAL_SERVER_ERROR);
     }
   }
+
+  @ApiExtraModels(ChannelConnectionResponse)
+  @ApiOkModelResponse({ type: ChannelConnectionResponse })
+  @Post('join-channel')
+  async joinChannel(@Body() dto: JoinChannelDTO) {
+    try {
+      return this.ok(await this.apiService.joinChannel(dto));
+    } catch (err) {
+      this.logger.error(err.message);
+      return this.error(SystemCode.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @ApiExtraModels(ChannelConnectionResponse)
+  @ApiOkModelResponse({ type: ChannelConnectionResponse })
+  @Post('rtm-token')
+  async generateRTMToken() {
+    try {
+      return this.ok(await this.apiService.joinRtmChannel());
+    } catch (err) {
+      this.logger.error(err.message);
+      return this.error(SystemCode.INTERNAL_SERVER_ERROR);
+    }
+  }
+
 }

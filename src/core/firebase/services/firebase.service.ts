@@ -1,5 +1,5 @@
 import * as firebaseAdmin from 'firebase-admin';
-import { EnvironmentFirebaseConfig } from './config/firebase';
+import { EnvironmentFirebaseConfig } from '../config/firebase';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()

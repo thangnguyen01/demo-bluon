@@ -42,6 +42,12 @@ export class EnvironmentParam {
   @IsString()
   @Type(() => String)
   @Expose()
-  public MONGODB_CONNECTION_STRING: string
+  public MONGODB_CONNECTION_STRING: string;
+
+
+  @IsNumber()
+  @Type(() => Number)
+  @Expose()
+  public PENDING_SYSTEM_SEARCH_TECHNICIAN: number
 
 }

@@ -36,14 +36,14 @@ export class AgoraService {
   }
 
   generateRtmToken(dto: GenerateRTMTokenDTO) {
-    const { expirationTimeInSeconds, userAccount } = dto
+    const { expirationTimeInSeconds } = dto
     const currentTimestamp = Math.floor(Date.now() / 1000);
     const privilegeExpiredTs = currentTimestamp + expirationTimeInSeconds;
 
     return RtmTokenBuilder.buildToken(
       this.agoraOptions.appID,
       this.agoraOptions.appCertificateID,
-      String(userAccount),
+      'thingIsHowWheDo',
       RtmRole.Rtm_User,
       privilegeExpiredTs,
     );

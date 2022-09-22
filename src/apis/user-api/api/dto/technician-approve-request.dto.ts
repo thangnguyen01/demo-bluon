@@ -1,9 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
 
-export class JoinChannelDTO {
+export class TechnicianApproveRequestDTO {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
-  channelName: string;
+  requesterId: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  type: string;
 }

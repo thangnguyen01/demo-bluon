@@ -1,9 +1,9 @@
 import * as _ from 'lodash';
 import * as redis from 'redis';
-import { Injectable } from '@nestjs/common';
 import { LoggerService } from 'src/core/common/logger/logger.service';
-@Injectable()
-export class CacheService {
+
+
+export abstract class CacheService {
   public db = 0;
   private _client: redis.RedisClientType<any>;
   protected logger = new LoggerService(this.constructor.name);

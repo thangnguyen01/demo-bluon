@@ -5,6 +5,7 @@ import { EnvironmentService } from './environment/environment.service';
 import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { NestFactory } from '@nestjs/core';
+import { ResponseModel } from './core/model/model.response';
 import { UserAPIModule } from './apis/user-api/user-api.module';
 
 async function bootstrap() {
@@ -40,7 +41,7 @@ function setupSwaggerUI(app: NestExpressApplication) {
     .build();
   const userDocument = SwaggerModule.createDocument(app, userOptions, {
     include: [UserAPIModule],
-    extraModels: [],
+    extraModels: [Boolean, Number, String, ResponseModel],
   });
   SwaggerModule.setup('docs/user', app, userDocument);
 }
