@@ -1,5 +1,5 @@
-import { ApiController } from './api/api.controller';
-import { ApiService } from './api/api.service';
+import { AgoraController } from './agora/agora.controller';
+import { AgoraControllerService } from './agora/agora.service';
 import { FireBaseModule } from 'src/core/firebase/firebase.module';
 import { JobsModule } from 'src/core/jobs/jobs.module';
 import { Module } from '@nestjs/common';
@@ -10,10 +10,10 @@ import { Module } from '@nestjs/common';
     FireBaseModule,
   ],
   providers: [
-    ApiService,
+    AgoraControllerService,
   ],
   controllers: [
-    ApiController,
+    AgoraController,
   ]
 })
-export class UserAPIModule { }
+export class UserModule { }

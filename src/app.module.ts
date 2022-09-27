@@ -4,7 +4,8 @@ import { CacheProvider } from './utility/cache/dto/cache-provider';
 import { EnvironmentModule } from './environment/environment.module';
 import { EnvironmentService } from './environment/environment.service';
 import { Module } from '@nestjs/common';
-import { UserAPIModule } from './apis/user-api/user-api.module';
+import { UserModule } from './apis/user/user.module';
+import { AppRouterModule } from './app-router.module';
 
 @Module({
   imports: [
@@ -30,7 +31,8 @@ import { UserAPIModule } from './apis/user-api/user-api.module';
       },
       inject: [EnvironmentService]
     }),
-    UserAPIModule,
+    AppRouterModule,
+    UserModule,
   ],
   controllers: [],
   providers: [],

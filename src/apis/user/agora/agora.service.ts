@@ -10,7 +10,7 @@ import { JoinChannelDTO } from './dto/user.dto';
 import { TechnicianApproveRequestDTO } from './dto/technician-approve-request.dto';
 
 @Injectable()
-export class ApiService {
+export class AgoraControllerService {
   constructor(
     private readonly agoraService: AgoraService,
     private readonly envService: EnvironmentService,
@@ -18,10 +18,11 @@ export class ApiService {
     private readonly fcmService: FCMService,
   ) { }
 
-  async generateChannel() {
+  generateRtcToken() {
+    // FIXME: Using real userId
     const uid = Math.floor(Math.random() * 10000);
     const channelName = short.generate();
-    const token = await this.agoraService.generateRtcToken({
+    const token = this.agoraService.generateRtcToken({
       channelName,
       expirationTimeInSeconds: moment.duration(this.envService.ENVIRONMENT.PENDING_SYSTEM_SEARCH_TECHNICIAN, 'hours').asMilliseconds(),
       uid,
@@ -35,29 +36,30 @@ export class ApiService {
     }
   }
 
-  async generateRtmToken() {
-    const userAccount = short.generate();
-    const token = await this.agoraService.generateRtmToken({
+  generateRtmToken() {
+    // FIXME: Using real userId
+    const userId = Math.floor(Math.random() * 10000).toString();
+    const token = this.agoraService.generateRtmToken({
       expirationTimeInSeconds: moment.duration(this.envService.ENVIRONMENT.PENDING_SYSTEM_SEARCH_TECHNICIAN, 'hours').asMilliseconds(),
-      userAccount,
+      userId,
     });
 
     return {
       tokenProvider: token,
-      userId: userAccount
+      userId
     }
   }
 
   async joinRtmChannel() {
-    const userAccount = short.generate();
+    const userId = short.generate();
     const token = await this.agoraService.generateRtmToken({
       expirationTimeInSeconds: moment.duration(this.envService.ENVIRONMENT.EXPIRED_TIME, 'hours').asMilliseconds(),
-      userAccount,
+      userId,
     });
 
     return {
       tokenProvider: token,
-      userId: userAccount
+      userId
     }
   }
 

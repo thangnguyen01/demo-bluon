@@ -1,28 +1,28 @@
 import { ApiExtraModels, ApiTags } from '@nestjs/swagger';
 import { ApiOkModelResponse } from 'src/utility/decorator/api-ok-model.response';
-import { ApiService } from './api.service';
+import { AgoraControllerService } from './agora.service';
 import { BaseController } from 'src/core/base.controller';
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { ChannelConnectionResponse } from './response/channel-connection.response';
 import { JoinChannelDTO } from './dto/user.dto';
 import { SystemCode } from 'src/core/constants/system-code';
 
 
 @ApiTags('User Api')
-@Controller('api/user/')
-export class ApiController extends BaseController {
+@Controller('agora')
+export class AgoraController extends BaseController {
   constructor(
-    private readonly apiService: ApiService,
+    private readonly agoraService: AgoraControllerService,
   ) {
     super();
   }
 
   @ApiExtraModels(ChannelConnectionResponse)
   @ApiOkModelResponse({ type: ChannelConnectionResponse })
-  @Post('channel')
-  async addToken() {
+  @Get('rtc-token')
+  getRtcToken() {
     try {
-      return this.ok(await this.apiService.generateChannel());
+      return this.ok(this.agoraService.generateRtcToken());
     } catch (err) {
       this.logger.error(err.message);
       return this.error(SystemCode.INTERNAL_SERVER_ERROR);
@@ -34,7 +34,7 @@ export class ApiController extends BaseController {
   @Post('join-channel')
   async joinChannel(@Body() dto: JoinChannelDTO) {
     try {
-      return this.ok(await this.apiService.joinChannel(dto));
+      return this.ok(await this.agoraService.joinChannel(dto));
     } catch (err) {
       this.logger.error(err.message);
       return this.error(SystemCode.INTERNAL_SERVER_ERROR);
@@ -43,10 +43,10 @@ export class ApiController extends BaseController {
 
   @ApiExtraModels(ChannelConnectionResponse)
   @ApiOkModelResponse({ type: ChannelConnectionResponse })
-  @Post('rtm-token')
-  async generateRTMToken() {
+  @Get('rtm-token')
+  generateRTMToken() {
     try {
-      return this.ok(await this.apiService.joinRtmChannel());
+      return this.ok(this.agoraService.generateRtmToken());
     } catch (err) {
       this.logger.error(err.message);
       return this.error(SystemCode.INTERNAL_SERVER_ERROR);
