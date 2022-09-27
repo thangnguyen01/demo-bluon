@@ -9,7 +9,7 @@ import { SystemCode } from 'src/core/constants/system-code';
 
 
 @ApiTags('User Api')
-@Controller('user/api/')
+@Controller('api/user/')
 export class ApiController extends BaseController {
   constructor(
     private readonly apiService: ApiService,
