@@ -15,7 +15,6 @@ export type FireBaseConfigType = {
 };
 
 const DEV = {
-
   type: 'service_account',
   project_id: 'example-bluon-realtime-support',
   private_key_id: '6c557acba24a77a69a089b293ded83927b0ceda1',

@@ -4,6 +4,7 @@ import { AgencyRequestTechnicianDTO } from './dto/agency-request-technician.dto'
 import { AgoraService } from 'src/utility/agora/agora.service';
 import { EnvironmentService } from 'src/environment/environment.service';
 import { FCMService } from 'src/core/firebase/services/fcm.service';
+import { FcmTokenRepository } from 'src/core/infrastructure/fcm/repositories/fcm-repository';
 import { FindingSupportAgencyJobService } from 'src/core/jobs/services/finding-support-agency.job.service';
 import { Injectable } from '@nestjs/common';
 import { JoinChannelDTO } from './dto/user.dto';
@@ -16,6 +17,7 @@ export class ApiService {
     private readonly envService: EnvironmentService,
     private readonly agencyJobService: FindingSupportAgencyJobService,
     private readonly fcmService: FCMService,
+    private readonly fcmTokenRepository: FcmTokenRepository
   ) { }
 
   async generateChannel() {
@@ -61,6 +63,25 @@ export class ApiService {
     }
   }
 
+  async generateChannelDemo(dto: JoinChannelDTO) {
+    const userRoomInfo = await this.joinChannel(dto);
+    if (dto.type && dto.type === 2) {
+      const agencyRoomInfo = await this.joinChannel(dto);
+      const agencies = await this.fcmTokenRepository.list({
+        type: 2,
+        fields: 'token'
+      })
+      await this.fcmService.sendNotification(
+        {
+          action: 'NEW_CALL_TO_AGENCY',
+          payload: JSON.stringify({ ...agencyRoomInfo })
+        },
+        agencies.map(x => x.token)
+      )
+    }
+    return userRoomInfo;
+  }
+
   async joinChannel(dto: JoinChannelDTO) {
     const uid = Math.floor(Math.random() * 10000);
     const token = await this.agoraService.generateRtcToken({
@@ -69,7 +90,6 @@ export class ApiService {
       uid,
       role: 'SUBSCRIBER'
     });
-
     return {
       tokenProvider: token,
       channelName: dto.channelName,

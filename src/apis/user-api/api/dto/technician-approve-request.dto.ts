@@ -10,5 +10,5 @@ export class TechnicianApproveRequestDTO {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
-  type: string;
+  type?: string;
 }

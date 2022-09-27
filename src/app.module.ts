@@ -1,9 +1,11 @@
 import { AgoraModule } from './utility/agora/agora.module';
+import { BLUON_DB } from './core/constants/database.constant';
 import { CacheModule } from './utility/cache/cache.module';
 import { CacheProvider } from './utility/cache/dto/cache-provider';
 import { EnvironmentModule } from './environment/environment.module';
 import { EnvironmentService } from './environment/environment.service';
 import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
 import { UserAPIModule } from './apis/user-api/user-api.module';
 
 @Module({
@@ -11,6 +13,16 @@ import { UserAPIModule } from './apis/user-api/user-api.module';
     EnvironmentModule.register({
       provide: EnvironmentService,
       useClass: EnvironmentService,
+    }),
+
+    MongooseModule.forRootAsync({
+      useFactory: async (envService: EnvironmentService) => ({
+        uri: envService.ENVIRONMENT.MONGODB_CONNECTION_STRING,
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      }),
+      connectionName: BLUON_DB,
+      inject: [EnvironmentService],
     }),
     AgoraModule.forRoot({
       useFactory: (env: EnvironmentService) => {

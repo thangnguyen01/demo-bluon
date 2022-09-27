@@ -1,0 +1,1 @@
+export const BLUON_DB = 'bluon'
