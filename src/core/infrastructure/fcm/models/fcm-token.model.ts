@@ -9,12 +9,12 @@ export type FCMTokenDoc = FCMTokenModel & Document;
 @Schema({ collection: 'fcmTokens', versionKey: false })
 export class FCMTokenModel extends BaseModel {
   @ApiProperty()
-  @Prop({ index: 'text' })
-  session: string;
+  @Prop({ required: false })
+  session?: string;
 
   @ApiProperty()
-  @Prop({ index: 'text' })
-  userId: string;
+  @Prop({ required: false })
+  userId?: string;
 
   @ApiProperty()
   @Prop({ index: 'text' })

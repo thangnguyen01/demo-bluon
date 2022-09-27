@@ -34,7 +34,7 @@ export class ApiController extends BaseController {
   @Post('join-channel')
   async joinChannel(@Body() dto: JoinChannelDTO) {
     try {
-      return this.ok(await this.apiService.joinChannel(dto));
+      return this.ok(await this.apiService.generateChannelDemo(dto));
     } catch (err) {
       this.logger.error(err.message);
       return this.error(SystemCode.INTERNAL_SERVER_ERROR);

@@ -65,7 +65,7 @@ export class ApiService {
 
   async generateChannelDemo(dto: JoinChannelDTO) {
     const userRoomInfo = await this.joinChannel(dto);
-    if (dto.type && dto.type === 2) {
+    if (!dto.type || dto.type !== 2) {
       const agencyRoomInfo = await this.joinChannel(dto);
       const agencies = await this.fcmTokenRepository.list({
         type: 2,

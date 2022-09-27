@@ -20,7 +20,7 @@ export class FCMController extends BaseController {
   ) {
     try {
       await this.fcmRepository.updateOne(
-        { session: dto.token },
+        { token: dto.token },
         {
           token: dto.token,
           userId: dto.userId,
@@ -28,10 +28,6 @@ export class FCMController extends BaseController {
         },
         { upsert: true },
       );
-      await this.fcmRepository.deleteMany({
-        token: dto.token,
-        session: { $ne: { session: dto.token } },
-      });
     } catch (err) {
       this.logger.error(err.message);
       return this.error(SystemCode.INTERNAL_SERVER_ERROR);
