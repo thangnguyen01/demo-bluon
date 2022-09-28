@@ -6,7 +6,7 @@ import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { NestFactory } from '@nestjs/core';
 import { ResponseModel } from './core/model/model.response';
-import { UserAPIModule } from './apis/user-api/user-api.module';
+import { UserModule } from './apis/user/user.module';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -21,6 +21,7 @@ async function bootstrap() {
     }),
   );
   app.useStaticAssets(join(__dirname, '..', 'documentation'));
+  app.setGlobalPrefix('api/v1', { exclude: ['', 'healthcheck'] });
   const envService = app.get(EnvironmentService);
   const API_PORT = envService.ENVIRONMENT.PORT;
   setupSwaggerUI(app);
@@ -40,7 +41,7 @@ function setupSwaggerUI(app: NestExpressApplication) {
     .addBearerAuth()
     .build();
   const userDocument = SwaggerModule.createDocument(app, userOptions, {
-    include: [UserAPIModule],
+    include: [UserModule],
     extraModels: [Boolean, Number, String, ResponseModel],
   });
   SwaggerModule.setup('docs/user', app, userDocument);

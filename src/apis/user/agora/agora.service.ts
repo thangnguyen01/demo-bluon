@@ -1,3 +1,4 @@
+import { RtmTokenDto } from './dto/rtm-token.dto';
 import * as moment from 'moment';
 import * as short from 'short-uuid';
 import { AgencyRequestTechnicianDTO } from './dto/agency-request-technician.dto';
@@ -9,9 +10,10 @@ import { FindingSupportAgencyJobService } from 'src/core/jobs/services/finding-s
 import { Injectable } from '@nestjs/common';
 import { JoinChannelDTO } from './dto/user.dto';
 import { TechnicianApproveRequestDTO } from './dto/technician-approve-request.dto';
+import { RtcTokenDto } from './dto/rtc-token.dto';
 
 @Injectable()
-export class ApiService {
+export class AgoraControllerService {
   constructor(
     private readonly agoraService: AgoraService,
     private readonly envService: EnvironmentService,
@@ -20,10 +22,9 @@ export class ApiService {
     private readonly fcmTokenRepository: FcmTokenRepository
   ) { }
 
-  async generateChannel() {
-    const uid = Math.floor(Math.random() * 10000);
-    const channelName = short.generate();
-    const token = await this.agoraService.generateRtcToken({
+  generateRtcToken({ channelName }: RtcTokenDto) {
+    const uid = Math.floor(Math.random() * 1000000000);
+    const token = this.agoraService.generateRtcToken({
       channelName,
       expirationTimeInSeconds: moment.duration(this.envService.ENVIRONMENT.PENDING_SYSTEM_SEARCH_TECHNICIAN, 'hours').asMilliseconds(),
       uid,
@@ -33,20 +34,19 @@ export class ApiService {
     return {
       tokenProvider: token,
       channelName,
-      userId: uid
+      uid,
     }
   }
 
-  async generateRtmToken() {
-    const userAccount = short.generate();
-    const token = await this.agoraService.generateRtmToken({
+  generateRtmToken({ userAccount }: RtmTokenDto) {
+    const token = this.agoraService.generateRtmToken({
       expirationTimeInSeconds: moment.duration(this.envService.ENVIRONMENT.PENDING_SYSTEM_SEARCH_TECHNICIAN, 'hours').asMilliseconds(),
       userAccount,
     });
 
     return {
       tokenProvider: token,
-      userId: userAccount
+      userAccount,
     }
   }
 
@@ -59,7 +59,7 @@ export class ApiService {
 
     return {
       tokenProvider: token,
-      userId: userAccount
+      userAccount,
     }
   }
 

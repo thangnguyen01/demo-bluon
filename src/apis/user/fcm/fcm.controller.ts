@@ -6,7 +6,7 @@ import { FcmTokenRepository } from 'src/core/infrastructure/fcm/repositories/fcm
 import { SystemCode } from 'src/core/constants/system-code';
 
 @ApiTags('FCM')
-@Controller('api/fcm')
+@Controller('fcm')
 export class FCMController extends BaseController {
   constructor(
     private readonly fcmRepository: FcmTokenRepository
